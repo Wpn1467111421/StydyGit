@@ -1,0 +1,80 @@
+package week08;
+//写一个类继承Thread
+class SellTicket extends Thread{
+	static int tickets=10;//总票数
+	public SellTicket(String name){
+		this.setName(name);
+	}
+	public void run(){
+		//重写run方法，线程要做的操作.买票
+		while (tickets>0){
+			System.out.println(Thread.currentThread().getName()+"sell no."+tickets--);
+		}
+	}
+}
+ class TestSellTicket {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//创建线程类SellTicket类的对象
+		SellTicket t1=new SellTicket("A");
+		SellTicket t2=new SellTicket("B");
+		SellTicket t3=new SellTicket("C");
+		//启动线程
+		t1.start();
+		t2.start();
+		t3.start();
+	}
+}
+/*
+ * 方法1，因为采用继承Thread类，有一些问题
+ * class Student extends Thread{}
+ * student 类继承Person类
+ * class Student extends Person{} 错误，不能同时继承俩个类
+ * 方法2 可以同时继承接口
+ */
+ 
+ 
+
+package week08;
+/*
+ * 多线程买票
+ * 方法2
+ */
+//1类实现Runnable接口
+class SellTicket2 implements Runnable{
+	int tickets=10;//票数
+	public void run(){
+		//重写run方法，线程要做的操作.买票
+		while (tickets>0){
+			System.out.println(Thread.currentThread()
+					.getName()+"sell no."+tickets);
+			try {
+				Thread.sleep(800);//休眠100毫秒
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			tickets--;//数量-1
+		}
+	}
+}
+public class TestSellTicket2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//3创建Sellticket2类的实例r1
+		SellTicket2 r1=new SellTicket2();
+		//4创建线程类对象，将日作为参数传递给Thread
+		Thread t1=new Thread(r1);
+		Thread t2=new Thread(r1);
+		Thread t3=new Thread(r1);
+		//启动线程
+		t1.start();
+		t2.start();
+		t3.start();
+	}
+
+}
+
+ 

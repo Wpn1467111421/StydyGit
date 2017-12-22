@@ -1,0 +1,77 @@
+package week10;
+
+class SellTicket2 implements Runnable{
+	int tickets=10;
+	public void run(){
+		while(tickets>0){
+			synchronized (this){//同步的锁，类型为object
+			if(tickets>0){
+			System.out.println(Thread.currentThread().getName()+"
+                                      sell no."+tickets);//获得当前线程的名字
+			try {
+				Thread.sleep(80);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			tickets--;
+		}
+	  }
+	}
+ }
+}
+public class TestSellTicket2 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SellTicket2 r1=new SellTicket2();
+		Thread t1=new Thread(r1);
+		Thread t2=new Thread(r1);
+		Thread t3=new Thread(r1);
+		t1.start();
+		t2.start();
+		t3.start();
+	}
+}
+
+
+
+package week10;
+class BanFei implements Runnable{
+	int count;//班费的余额
+	public synchronized void add(int n){
+		System.out.println(Thread.currentThread().getName());
+		count=count+n;
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("班费"+count);
+	}
+	public void run(){
+		//交班费
+		add(10);
+	}
+}
+
+public class TestBanFei {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		BanFei cz=new BanFei();
+		Thread stu1=new Thread(cz);
+		Thread stu2=new Thread(cz);
+		Thread stu3=new Thread(cz);
+		Thread stu4=new Thread(cz);
+		
+		stu1.start();
+		stu2.start();
+		stu3.start();
+		stu4.start();
+	}
+
+}
